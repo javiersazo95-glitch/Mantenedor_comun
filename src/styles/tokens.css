@@ -1,0 +1,35 @@
+:root {
+  --color-fondo: #f4f6f8;
+  --color-superficie: #ffffff;
+  --color-superficie-2: #f8fafc;
+  --color-borde: #e2e8f0;
+  --color-borde-fuerte: #cbd5e1;
+  --color-texto: #0f172a;
+  --color-texto-suave: #64748b;
+  --color-primario: #0f766e;
+  --color-primario-hover: #115e59;
+  --color-primario-suave: #ccfbf1;
+  --color-acento: #f59e0b;
+  --color-peligro: #dc2626;
+  --color-peligro-suave: #fee2e2;
+  --color-exito: #16a34a;
+  --color-exito-suave: #dcfce7;
+  --color-aviso: #d97706;
+  --color-aviso-suave: #fef3c7;
+  --color-info: #2563eb;
+  --color-info-suave: #dbeafe;
+  --color-sidebar: #0b1220;
+  --color-sidebar-texto: #cbd5e1;
+  --color-sidebar-activo: #14b8a6;
+
+  --radio: 10px;
+  --radio-pequeno: 6px;
+  --sombra: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.1);
+  --sombra-modal: 0 20px 50px rgba(15, 23, 42, 0.3);
+
+  --fuente: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --fuente-mono: 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+
+  --ancho-sidebar: 248px;
+  --alto-topbar: 56px;
+}

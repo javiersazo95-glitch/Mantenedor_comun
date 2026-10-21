@@ -1,0 +1,8 @@
+.env
+.env.local
+node_modules/
+dist/
+audit-runs/
+
+# Reportes del script de migración de íconos (se regeneran en cada corrida).
+scripts/salida/
