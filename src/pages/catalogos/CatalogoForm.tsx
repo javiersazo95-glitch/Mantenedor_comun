@@ -5,7 +5,7 @@ import { esColorValido } from '@/utils/validators'
 import { Toggle } from '@/components/Toggle'
 import { IconUploader } from '@/components/IconUploader'
 import { IconoCatalogo } from '@/components/IconoCatalogo'
-import { existeIconoLucide } from '@/utils/validators'
+
 import { useGuardarCatalogo } from '@/hooks/useCatalogo'
 import { useIconos } from '@/hooks/useIconos'
 import { slugificar } from '@/utils/slug'
@@ -20,7 +20,14 @@ interface Props {
   onCerrar: () => void
 }
 
-const FAMILIAS_SUGERIDAS = ['motor', 'frenos', 'suspension', 'electrico', 'carroceria', 'transmision', 'refrigeracion', 'accesorios']
+/** Las 8 familias del Market (SIDEBAR_CATEGORIES). */
+const FAMILIAS_SUGERIDAS = ['frenos', 'motor', 'suspension', 'iluminacion', 'aceites', 'electrico', 'carroceria', 'neumaticos']
+
+/** Nombres lucide que resuelve CategoryIconTile.jsx del Market; cualquier otro cae a Package. */
+const ICONOS_CATEGORIA = [
+  'Disc3', 'Cog', 'ArrowUpDown', 'Lightbulb', 'Droplets', 'Zap', 'CarFront', 'CircleDot', 'Wind', 'ThermometerSun',
+  'KeyRound', 'Fuel', 'Gauge', 'CircleGauge', 'Recycle', 'GitFork', 'Layers', 'Filter', 'Cable', 'Snowflake', 'Radar', 'Box', 'Package',
+]
 
 /**
  * Formulario compartido por los cinco catálogos. Los campos que no aplican al tipo no se
@@ -49,10 +56,11 @@ export function CatalogoForm({ tipo, abierto, fila, padreId, onCerrar }: Props) 
   async function onGuardar() {
     if (!form.nombre.trim()) throw new Error('El nombre es obligatorio.')
     if (!esColorValido(form.color)) throw new Error('El color debe tener formato #rrggbb.')
-    if (form.iconoNombre && !existeIconoLucide(form.iconoNombre)) {
-      throw new Error(`"${form.iconoNombre}" no es un nombre de ícono lucide válido (ejemplo: Disc3, Wrench, Zap).`)
-    }
-    await guardar.mutateAsync({ id: fila?.id ?? null, cuerpo: { ...form, nombre: form.nombre.trim() } })
+    // Un campo de texto vacío se guarda como null, no como "": los clientes distinguen "sin valor".
+    const limpio = Object.fromEntries(
+      Object.entries(form).map(([k, v]) => [k, typeof v === 'string' && v.trim() === '' ? null : v]),
+    ) as CatalogoFormulario
+    await guardar.mutateAsync({ id: fila?.id ?? null, cuerpo: { ...limpio, nombre: form.nombre.trim() } })
     onCerrar()
   }
 
@@ -140,12 +148,19 @@ export function CatalogoForm({ tipo, abierto, fila, padreId, onCerrar }: Props) 
               </datalist>
             </label>
             <label className="campo">
-              <span>Ícono lucide (fallback)</span>
+              <span>Ícono de respaldo</span>
               <div className="campo-inline">
-                <input value={form.iconoNombre ?? ''} onChange={(e) => set('iconoNombre', e.target.value || null)} placeholder="Disc3" />
+                <select value={form.iconoNombre ?? ''} onChange={(e) => set('iconoNombre', e.target.value || null)}>
+                  <option value="">Sin ícono (usa Package)</option>
+                  {ICONOS_CATEGORIA.map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </select>
                 <IconoCatalogo iconoUrl={null} iconoNombre={form.iconoNombre} color={form.color} />
               </div>
-              <span className="campo-ayuda">Se usa cuando no hay ícono subido. Nombre PascalCase de lucide.dev.</span>
+              <span className="campo-ayuda">Solo estos nombres están disponibles en el Market y la app. Se usa cuando no hay ícono subido.</span>
             </label>
           </div>
         </>

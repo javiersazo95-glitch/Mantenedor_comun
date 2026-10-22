@@ -8,7 +8,7 @@ import { ConfirmDialog } from '@/components/ConfirmDialog'
 import { QueryError } from '@/components/QueryError'
 import { useCambiarParametro, useParametros, useRestaurarDefault } from '@/hooks/useParametros'
 import { entradaDesdeValor, formatearFecha, formatearValorParametro, normalizarEntradaParametro } from '@/utils/format'
-import { GRUPO_LABEL, type Parametro } from '@/types/parametros'
+import { GRUPO_LABEL, ORDEN_GRUPOS, type Parametro } from '@/types/parametros'
 
 export function ParametrosPage() {
   const parametros = useParametros()
@@ -23,7 +23,12 @@ export function ParametrosPage() {
       lista.push(p)
       mapa.set(p.grupo, lista)
     }
-    return [...mapa.entries()]
+    // Lo que más se toca (comisiones y plazos) primero; los grupos desconocidos al final, por nombre.
+    const peso = (g: string) => {
+      const i = ORDEN_GRUPOS.indexOf(g)
+      return i === -1 ? ORDEN_GRUPOS.length : i
+    }
+    return [...mapa.entries()].sort(([a], [b]) => peso(a) - peso(b) || a.localeCompare(b))
   }, [parametros.data])
 
   return (

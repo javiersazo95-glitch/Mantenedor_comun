@@ -78,13 +78,18 @@ export function VisibilidadPage() {
                           </Badge>
                         )}
                       </span>
+                      {f.habilitado && /pago-simulado$/.test(f.clave) && (
+                        <p className="mensaje-aviso" style={{ marginTop: 6 }}>
+                          Cuidado: con este flag encendido el checkout ofrece "Simulación" y deja pedidos sin pagar. No lo uses en producción.
+                        </p>
+                      )}
                       <div className="fila-meta">
                         <span className="mono">{f.clave}</span>
                         {f.metadata && <code>{JSON.stringify(f.metadata)}</code>}
                       </div>
                     </div>
                     <span className="campo-inline">
-                      <Toggle checked={f.habilitado} onChange={(v) => editar.mutate({ id: f.id, cuerpo: { habilitado: v } })} etiqueta="" title={f.habilitado ? 'Ocultar' : 'Mostrar'} disabled={editar.isPending} />
+                      <Toggle checked={f.habilitado} onChange={(v) => editar.mutate({ id: f.id, cuerpo: { habilitado: v } })} ariaLabel={`${f.habilitado ? 'Ocultar' : 'Mostrar'} ${f.descripcion}`} title={f.habilitado ? 'Ocultar' : 'Mostrar'} disabled={editar.isPending} />
                       <button type="button" className="boton boton-fantasma boton-icono" title="Editar" aria-label="Editar" onClick={() => setEditando(f)}>
                         <Pencil size={16} />
                       </button>

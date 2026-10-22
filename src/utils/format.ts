@@ -3,11 +3,14 @@ import type { TipoParametro } from '@/types/parametros'
 const clp = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 })
 const numero = new Intl.NumberFormat('es-CL', { maximumFractionDigits: 6 })
 
+/** dd-mm-aaaa hh:mm. El formato corto de es-CL ("22-10-26") se lee como año 2022, así que se arma a mano. */
 export function formatearFecha(iso: string | null | undefined, conHora = true): string {
   if (!iso) return '—'
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return iso
-  return d.toLocaleString('es-CL', conHora ? { dateStyle: 'short', timeStyle: 'short' } : { dateStyle: 'short' })
+  const p = (n: number) => String(n).padStart(2, '0')
+  const fecha = `${p(d.getDate())}-${p(d.getMonth() + 1)}-${d.getFullYear()}`
+  return conHora ? `${fecha} ${p(d.getHours())}:${p(d.getMinutes())}` : fecha
 }
 
 /** Muestra el valor de un parámetro según su tipo (el backend lo guarda siempre como texto). */

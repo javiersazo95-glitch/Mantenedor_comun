@@ -202,7 +202,7 @@ export function CatalogoPage({ tipo }: { tipo: TipoCatalogo }) {
         }}
         acciones={(f) => (
           <span className="campo-inline" style={{ justifyContent: 'flex-end' }}>
-            <Toggle checked={f.activo} onChange={(v) => activar.mutate({ id: f.id, activo: v })} etiqueta="" title={f.activo ? 'Desactivar' : 'Activar'} disabled={activar.isPending} />
+            <Toggle checked={f.activo} onChange={(v) => activar.mutate({ id: f.id, activo: v })} ariaLabel={`${f.activo ? 'Desactivar' : 'Activar'} ${f.nombre}`} title={f.activo ? 'Desactivar' : 'Activar'} disabled={activar.isPending} />
             {tipo === 'marcas-repuesto' && (f as MarcaRepuesto).origen === 'VENDEDOR' && !(f as MarcaRepuesto).revisada && (
               <button type="button" className="boton boton-fantasma boton-icono" title="Marcar como revisada" aria-label="Marcar como revisada" onClick={() => revisar.mutate(f.id)}>
                 <CheckCheck size={16} />

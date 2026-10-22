@@ -118,7 +118,7 @@ export function ListaOpcionesPage() {
         reordenarDeshabilitado={reordenar.isPending}
         acciones={(o) => (
           <span className="campo-inline" style={{ justifyContent: 'flex-end' }}>
-            <Toggle checked={o.activo} onChange={(v) => activar.mutate({ id: o.id, activo: v })} etiqueta="" title={o.activo ? 'Ocultar' : 'Mostrar'} disabled={activar.isPending} />
+            <Toggle checked={o.activo} onChange={(v) => activar.mutate({ id: o.id, activo: v })} ariaLabel={`${o.activo ? 'Ocultar' : 'Mostrar'} ${o.etiqueta}`} title={o.activo ? 'Ocultar' : 'Mostrar'} disabled={activar.isPending} />
             <button type="button" className="boton boton-fantasma boton-icono" title="Editar" aria-label="Editar" onClick={() => setEditando(o)}>
               <Pencil size={16} />
             </button>

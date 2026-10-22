@@ -63,6 +63,8 @@ export interface BootstrapDTO {
   flags: Record<string, boolean>
   flagsMetadata: Record<string, Record<string, unknown>>
   listas: Record<string, BootstrapOpcionLista[]>
+  /** Metadata de la LISTA completa (p. ej. `permiteTextoLibre` de GARANTIA_PRODUCTO). */
+  listasMetadata: Record<string, Record<string, unknown>>
   categorias: BootstrapCategoria[]
   marcasVehiculo: BootstrapMarcaVehiculo[]
   marcasRepuestoDestacadas: BootstrapMarcaRepuesto[]

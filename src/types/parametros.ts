@@ -41,6 +41,9 @@ export interface CambioParametro {
   vigenteDesde?: string
 }
 
+/** Orden de presentación en la pantalla de parámetros. */
+export const ORDEN_GRUPOS = ['COMISION', 'PEDIDO', 'RETIRO', 'INVENTARIO', 'MEDIACION', 'ANUNCIOS', 'TRIBUTARIO', 'LEGAL', 'CATALOGO']
+
 export const GRUPO_LABEL: Record<string, string> = {
   COMISION: 'Comisiones y pasarela',
   PEDIDO: 'Plazos de pedidos',

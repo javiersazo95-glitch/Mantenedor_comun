@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { entradaDesdeValor, formatearValorParametro, normalizarEntradaParametro } from './format'
+import { entradaDesdeValor, formatearFecha, formatearValorParametro, normalizarEntradaParametro } from './format'
 
 describe('normalizarEntradaParametro', () => {
   it('convierte porcentajes escritos por humanos a fracción para el backend', () => {
@@ -34,5 +34,16 @@ describe('formatearValorParametro / entradaDesdeValor', () => {
   it('muestra dinero en pesos y booleanos en castellano', () => {
     expect(formatearValorParametro('100000', 'MONEY')).toMatch(/100\.000/)
     expect(formatearValorParametro('false', 'BOOLEAN')).toBe('No')
+  })
+})
+
+describe('formatearFecha', () => {
+  it('usa dd-mm-aaaa hh:mm con año de 4 dígitos (el corto de es-CL se lee como 2022)', () => {
+    expect(formatearFecha('2026-10-22T03:21:00')).toBe('22-10-2026 03:21')
+    expect(formatearFecha('2026-10-22T03:21:00', false)).toBe('22-10-2026')
+  })
+  it('tolera vacío y valores inválidos', () => {
+    expect(formatearFecha(null)).toBe('—')
+    expect(formatearFecha('no es fecha')).toBe('no es fecha')
   })
 })
